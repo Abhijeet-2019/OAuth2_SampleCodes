@@ -1,0 +1,26 @@
+server:
+  port: 8080
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+    instance:
+      preferIpAddress: true
+spring:
+  application:
+    name: API-Service
+  cloud:
+    gateway:
+      routes:
+        - id: Auth-Resource-Service
+          uri: http://localhost:8081/
+          predicates:
+            - Path=/resourceServer1/**
+        - id: Auth-Stock-Details
+          uri: http://localhost:8082/
+          predicates:
+            - Path=/stockDetails/**
+        - id: Auth-Stock-Client
+          uri: http://localhost:8083/
+          predicates:
+            - Path=/stockServiceClient/**
