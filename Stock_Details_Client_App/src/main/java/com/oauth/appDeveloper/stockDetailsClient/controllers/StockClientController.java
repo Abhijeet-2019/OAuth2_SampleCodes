@@ -19,7 +19,7 @@ import org.springframework.web.client.RestTemplate;
 
 @Controller
 @CrossOrigin
-@RequestMapping("/stockClient")
+
 public class StockClientController {
 
     @Autowired
@@ -28,7 +28,7 @@ public class StockClientController {
     @Autowired
     RestTemplate restTemplate;
 
-    @GetMapping("/fetchAll")
+    @GetMapping("/albums")
     public String getAlbums(Model model,
                             @AuthenticationPrincipal OidcUser principal) {
 

@@ -40,4 +40,4 @@ Stock Details Service:
 Stock Details Client:
     api link --http://localhost:8080/stockServiceClient/stockClient/fetchAll
 
-    http://localhost:8083/stockServiceClient/stockClient/fetchAll
+    http://localhost:8083/stockServiceClient/albums
