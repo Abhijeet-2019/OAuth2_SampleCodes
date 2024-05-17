@@ -8,19 +8,23 @@ eureka:
       preferIpAddress: true
 spring:
   application:
-    name: API-Service
+    name: api-gateway
   cloud:
     gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
       routes:
-        - id: Auth-Resource-Service
-          uri: http://localhost:8081/
+        - id: auth-Resource-server
+          uri: lb://auth-Resource-server
           predicates:
             - Path=/resourceServer1/**
-        - id: Auth-Stock-Details
-          uri: http://localhost:8082/
-          predicates:
-            - Path=/stockDetails/**
-        - id: Auth-Stock-Client
-          uri: http://localhost:8083/
+        - id: auth-stock-client
+          uri: lb://auth-stock-client
           predicates:
             - Path=/stockServiceClient/**
+        - id: customer-Api
+          uri: lb://customer-Api
+          predicates:
+            - Path=/customerDetails/**

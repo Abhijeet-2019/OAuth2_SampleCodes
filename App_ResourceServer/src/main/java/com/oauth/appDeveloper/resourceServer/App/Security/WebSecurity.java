@@ -29,14 +29,14 @@ public class WebSecurity {
         httpSecurity.authorizeHttpRequests(auth -> {
             auth.antMatchers(HttpMethod.GET,"/users/permitMe")
                     .permitAll()
-                    .antMatchers(HttpMethod.GET, "/users/connect")
+                    .antMatchers(HttpMethod.GET, "/users/**")
                     .hasRole("appDeveloper")
 //                    .antMatchers(HttpMethod.GET, "/admin/**")  // we can add this using @Secured method also
 //                    .hasRole("adminUser1")
 
                     .anyRequest().authenticated();
-        }).oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt2 -> {
-
+        }).oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> {
+            jwt.jwtAuthenticationConverter(jwtAuthenticationConverter);
         }));
         return httpSecurity.build();
     }

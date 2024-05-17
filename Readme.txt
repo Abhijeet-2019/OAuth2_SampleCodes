@@ -1,25 +1,51 @@
 This application is a Demo project that uses OAuth spring security.
 The Authentication Server used is Key Cloak.
+
 Installation Process of Key Cloak:
 --------------------------------
+I am using a docker image to start the Key cloak server in the Docker container:
 
-Base Url for Okta Server : http://localhost:8180/
+Command to download a docker image from docker hub to local Docker desktop:
+-------------------------------------------------------------------------------
+	docker pull quay.io/keycloak/keycloak:latest
+The above command will pull the Keycloak image and install the Key Cloak server in Docker Desktop.
 
-The Rest end points OF AUTHENTICATION RESOURCE SERVER1 End Point
+Command to run the Keycloak server in development mode
+-----------------------------------------------------------------
+docker run --name keycloak_server -p 8180:8180 \
+		-e KEYCLOAK_ADMIN=admin \
+		-e KEYCLOAK_ADMIN_PASSWORD=password \
+		quay.io/keycloak/keycloak:latest \
+		start-dev \
+		--http-port=8180
 
-The Rest URL to fetch the authentication code for KeyCloak server
-        http://localhost:8180/realms/appDeveloper/protocol/openid-connect/auth?client_id=keyCloack&response_type=code&scope=openid profile&redirect_uri=http://localhost:8089/callback&state=test
-The REST POST Request to get the access token:
-        http://localhost:8180/realms/appDeveloper/protocol/openid-connect/token
-POST---Add the following in the body :
-    grant_type - authorization_code
-    client_id  - keyCloack
-    client_secret - WpY844VAVYeHGSuw4B04gfYAam9d5WxY
-    code -
-    redirect_uri - http://localhost:8089/callback
-    state - test
+	Once the server gets started in the Docker desktop we can the use localhost and then we can login as a Admin user
+	base url :http://localhost:8180/
 
-Should be called using OAuth2 authentication:
+	Administrator User name and pwd used in the project:
+		User : admin
+		password: password
+	We then need to create a new Realms
+	Create new users
+
+	Users username and password
+	user : abhijeet
+	password : abhijeet
+
+	Realms: appDeveloper
+
+URL to fetch token for auth code :
+This is a GET URL :
+	http://localhost:8180/realms/appDeveloper/protocol/openid-connect/auth?client_id=application-client-web&response_type=code&scope=openid profile&redirect_uri=http://localhost:8089/callback&state=test
+
+Micro service Modules:
+    1. Discovery Service :
+        http://localhost:8761/ (Default)
+    2. API Gate way Service
+        http://localhost:8080/
+    3. API_Resource Server (This is a sample Resource Server that has the protected end points).
+    4. Stock_Details_Client_App (This is the client Application that is used to fetch the resource from resource Server.
+    5.
 
 Rest End points Calls with Admin Role:-
     http://localhost:8080/resourceServer1/admin/addUser
@@ -33,11 +59,10 @@ Rest End points call with appDeveloper Role:-
 Can be called directly(Here no authentication is needed):-
     http://localhost:8080/resourceServer1/users/permitMe
 
-Stock Details Service:
-    http://localhost:8080/stockDetails/stocks/fetchById
-    http://localhost:8080/stockDetails/stocks/fetchAll
 
-Stock Details Client:
-    api link --http://localhost:8080/stockServiceClient/stockClient/fetchAll
+Stock Details Client through API GateWay:
+    http://localhost:8080/stockServiceClient/userDetails
+    http://localhost:8080/stockServiceClient/albums
 
-    http://localhost:8083/stockServiceClient/albums
+The SPA Single page Web application is a code example that will read the properties abd
+https://github.com/simplyi/spa-example/blob/main/src/main/resources/static/index.html
